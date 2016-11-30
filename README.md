@@ -1,0 +1,2 @@
+[![Build Status](https://travis-ci.org/cfrutos/async-jobs.svg?branch=master)](https://travis-ci.org/cfrutos/async-jobs)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/cfrutos/async-jobs/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cfrutos/async-jobs/?branch=master)
