@@ -3,7 +3,6 @@ namespace Workana\AsyncJobs;
 
 use Throwable;
 use Exception;
-
 use Bernard\Envelope;
 use Bernard\Queue;
 use Bernard\Router;
