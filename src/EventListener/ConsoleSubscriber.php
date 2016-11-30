@@ -71,7 +71,7 @@ class ConsoleSubscriber implements EventSubscriberInterface
         $message = '[:date] Job handled <fg=green;options=bold>successfully</>: :jobDescription and options :optionsDescription';
 
         return strtr($message, [
-            ':date' => '02/03/2017 10:48:11',
+            ':date' => date('m/d/Y H:i:s'),
             ':jobDescription' => $this->formatter->format($job),
             ':optionsDescription' => $this->formatter->format($info),
         ]);
@@ -93,7 +93,7 @@ class ConsoleSubscriber implements EventSubscriberInterface
         $message = '[:date] <fg=red>[ERROR]</> Executing :jobDescription with :infoDescription. Error: :errorDescription';
 
         return strtr($message, [
-            ':date' => '02/03/2017 14:12:12',
+            ':date' => date('m/d/Y H:i:s'),
             ':jobDescription' => $this->formatter->format($job),
             ':infoDescription' => $this->formatter->format($info),
             ':errorDescription' => $this->formatter->format($error)
@@ -104,7 +104,7 @@ class ConsoleSubscriber implements EventSubscriberInterface
     {
         $message = '[:date] <fg=red>[AGGREGATED ERROR]</> Executing :jobDescription with :infoDescription. Error: :errorDescription';
         $builtMessage = strtr($message, [
-            ':date' => '02/03/2017 14:12:12',
+            ':date' => date('m/d/Y H:i:s'),
             ':jobDescription' => $this->formatter->format($job),
             ':infoDescription' => $this->formatter->format($info),
             ':errorDescription' => $error->getMessage(),
