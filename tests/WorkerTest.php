@@ -7,7 +7,10 @@ use Bernard\Envelope;
 use Bernard\Queue;
 use Bernard\Router;
 use Bernard\Message;
+use Workana\AsyncJobs\AsyncAction;
+use Workana\AsyncJobs\Event\SuccessfulExecutionEvent;
 use Workana\AsyncJobs\Event\WorkerShutdownEvent;
+use Workana\AsyncJobs\Job;
 use Workana\AsyncJobs\Retry\RetryStrategy;
 use Workana\AsyncJobs\Worker;
 use Workana\AsyncJobs\Normalizer\Accesor;
@@ -98,9 +101,14 @@ class WorkerTest extends Test
     {
         $stopwatch = $this->useMockedStopwatch();
         $stopwatch->shouldReceive('start')->once();
+        $stopwatch->shouldReceive('elapsed')->andReturn(1);
 
         $this->mockedEventDispatcher->shouldReceive('dispatch')
             ->with(AsyncJobsEvents::BEFORE_EXECUTION, m::type(BeforeExecutionEvent::class))
+            ->once();
+
+        $this->mockedEventDispatcher->shouldReceive('dispatch')
+            ->with(AsyncJobsEvents::SUCCESSFUL_EXECUTION, m::type(SuccessfulExecutionEvent::class))
             ->once();
 
         $this->mockedEventDispatcher->shouldReceive('dispatch')
@@ -108,7 +116,7 @@ class WorkerTest extends Test
             ->once();
 
         $envelope = m::mock(Envelope::class);
-        $envelope->shouldReceive('getMessage')->once()->andReturn($message = m::mock(Message::class));
+        $envelope->shouldReceive('getMessage')->andReturn($message = new AsyncAction('Foo', 'Bar'));
         
         $this->mockedQueue->shouldReceive('acknowledge')->with($envelope)->once()->byDefault();
 
@@ -132,7 +140,11 @@ class WorkerTest extends Test
             ->with(AsyncJobsEvents::REJECTED_EXECUTION, m::type(RejectedExecutionEvent::class))
             ->once();
 
-        $envelope = new Envelope(m::mock(Message::class));
+        $this->mockedEventDispatcher->shouldReceive('dispatch')
+            ->with(AsyncJobsEvents::AFTER_EXECUTION, m::type(AfterExecutionEvent::class))
+            ->once();
+
+        $envelope = new Envelope(new AsyncAction('Foo', 'Bar'));
 
         $this->mockedQueue->shouldReceive('acknowledge')->with($envelope)->once()->byDefault();
 
@@ -169,7 +181,7 @@ class WorkerTest extends Test
         });
 
         $envelope = m::mock(Envelope::class);
-        $envelope->shouldReceive('getMessage')->andReturn($message = m::mock(Message::class));
+        $envelope->shouldReceive('getMessage')->andReturn($message = new AsyncAction('Foo', 'Bar'));
 
         $this->mockedQueue->shouldReceive('dequeue')->times(3)->andReturn($envelope);
 
