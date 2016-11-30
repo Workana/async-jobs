@@ -39,7 +39,7 @@ class ConsumeCommand extends Command
     public function configure()
     {
         $this->setDescription('Consume queues')
-             ->addOption(
+                ->addOption(
                 'queues',
                 null,
                 InputOption::VALUE_REQUIRED,

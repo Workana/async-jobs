@@ -38,7 +38,6 @@ class RejectedExecutionEvent extends Event
     protected $info;
 
     /**
-     * @param Job $job
      * @param Exception|Throwable $error
      */
     public function __construct(Envelope $envelope, $error, Worker $worker, ExecutionInfo $info)
