@@ -1,0 +1,35 @@
+{
+    "name": "workana/async-jobs",
+    "description": "Job queue manager for multiple message queue systems",
+    "type": "library",
+    "require-dev": {
+        "mockery/mockery": "^0.9.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Workana\\AsyncJobs\\": "src/"
+        },
+        "exclude-from-classmap": ["tests/"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Workana\\AsyncJobs\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Carlos Frutos",
+            "email": "charly@workana.com"
+        }
+    ],
+    "require": {
+        "bernard/bernard": "dev-master",
+        "misterion/ko-process": "^0.5.3"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:cfrutos/bernard.git"
+        }
+    ]
+}
