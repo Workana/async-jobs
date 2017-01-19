@@ -4,12 +4,12 @@ namespace Workana\AsyncJobs\Util;
 class Sleeper
 {
     /**
-     * Sleep (in miliseconds)
+     * Sleep (in millisecond)
      *
-     * @param int $miliseconds
+     * @param int $millisecond
      */
-    public function sleep($miliseconds)
+    public function sleep($millisecond)
     {
-        usleep($miliseconds * 1000);
+        usleep($millisecond * 1000);
     }
 }
