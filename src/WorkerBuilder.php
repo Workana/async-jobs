@@ -59,19 +59,6 @@ class WorkerBuilder
         return $this;
     }
 
-    /**
-     * Using Driver class
-     *
-     * @param string $driverClass
-     *
-     * @return self
-     */
-    public function usingDriverClass($driverClass)
-    {
-        $this->driverClass = (string) $driverClass;
-
-        return $this;
-    }
 
     /**
      * Build worker
