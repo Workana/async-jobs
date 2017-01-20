@@ -79,6 +79,7 @@ class JobManager
 
     /**
      * @return JobDispatcher
+     * @throws \Exception
      */
     private function createDispatcher()
     {
