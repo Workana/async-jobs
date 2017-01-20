@@ -98,6 +98,7 @@ class WorkerBuilder
             $queue = $this->jm->getQueueFactory()->create(reset($queueNames));
         } else {
             $queueSet = array_map([$this->jm->getQueueFactory(), 'create'], $queueNames);
+            var_dump('el set quedó', $queueSet);
             $queue = new RoundRobinQueue($queueSet);
         }
 

@@ -75,7 +75,7 @@ class AggregateChildEventException extends Exception
         } elseif (is_object($listener)) {
             $class = get_class($listener);
 
-            return "[invokable]#{class}";
+            return "[invokable]#{$class}";
         }
     }
 
