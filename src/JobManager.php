@@ -43,12 +43,12 @@ class JobManager
     private $eventDispatcher;
 
     /**
-     * @var Bernard\QueueFactory
+     * @var \Bernard\QueueFactory
      */
     private $queueFactory;
 
     /**
-     * @var Bernard\Router
+     * @var \Bernard\Router
      */
     private $router;
 
