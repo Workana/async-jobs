@@ -84,7 +84,7 @@ class JobManager
     private function createDispatcher()
     {
         if ($this->config->isSync()) {
-            throw new \Exception('Not implemented yed: sync mode');
+            throw new \Exception('Not implemented yet: sync mode');
         } else {
             return new AsyncJobDispatcher($this);
         }
