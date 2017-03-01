@@ -1,7 +1,6 @@
 <?php
 namespace Workana\AsyncJobs\Dispatcher;
 
-use DateTime;
 use Bernard\Envelope;
 use Workana\AsyncJobs\Job;
 use Workana\AsyncJobs\JobManager;

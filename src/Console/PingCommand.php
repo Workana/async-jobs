@@ -53,7 +53,7 @@ class PingCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $queueNames = array_map('trim', explode(',', $input->getOption('queues')));
-        $queueNames = !empty($queues) ?: $this->jm->getDriver()->listQueues();
+        $queueNames = !empty($queueNames) ?: $this->jm->getDriver()->listQueues();
 
         foreach ($queueNames as $queueName) {
             $action = new AsyncAction(Ping::class, 'ping');

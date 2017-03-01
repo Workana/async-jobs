@@ -18,7 +18,7 @@ class DefaultJobFormatter implements JobFormatterInterface
      */
     public function canFormat(Job $job)
     {
-        //It allways can format a job
+        //It always can format a job
         return true;
     }
 }

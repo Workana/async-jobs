@@ -18,7 +18,7 @@ class ScalarNormalizer extends AbstractAggregateNormalizerAware implements Norma
     /**
      * Normalizes an object into a set of arrays/scalars.
      *
-     * @param object $object  object to normalize
+     * @param array|scalar $value  object to normalize
      * @param string $format  format the normalization result will be encoded as
      * @param array  $context Context options for the normalizer
      *
@@ -39,14 +39,14 @@ class ScalarNormalizer extends AbstractAggregateNormalizerAware implements Norma
      */
     public function supportsNormalization($data, $format = null)
     {
-        return is_null($data) || is_scalar($data);
+        return is_null($data) || is_array($data) || is_scalar($data);
     }
 
     /**
      * Denormalizes data back into an object of the given class.
      *
      * @param mixed  $data    data to restore
-     * @param string $class   the expected class to instantiate
+     * @param string $type   the expected class to instantiate
      * @param string $format  format the given data was extracted from
      * @param array  $context options available to the denormalizer
      *
@@ -56,6 +56,8 @@ class ScalarNormalizer extends AbstractAggregateNormalizerAware implements Norma
     {
         if ($type == 'NULL') {
             return null;
+        } elseif ($type === 'array') {
+            return $data;
         } else {
             $castFunc = $this->castFunctionMap[$type];
 
@@ -74,6 +76,6 @@ class ScalarNormalizer extends AbstractAggregateNormalizerAware implements Norma
      */
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return ($type == 'NULL') || array_key_exists($type, $this->castFunctionMap);
+        return ($type == 'NULL') || ($type === 'array') || array_key_exists($type, $this->castFunctionMap);
     }
 }
