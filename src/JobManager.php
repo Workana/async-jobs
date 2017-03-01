@@ -43,12 +43,12 @@ class JobManager
     private $eventDispatcher;
 
     /**
-     * @var Bernard\QueueFactory
+     * @var \Bernard\QueueFactory
      */
     private $queueFactory;
 
     /**
-     * @var Bernard\Router
+     * @var \Bernard\Router
      */
     private $router;
 
@@ -79,11 +79,12 @@ class JobManager
 
     /**
      * @return JobDispatcher
+     * @throws \Exception
      */
     private function createDispatcher()
     {
         if ($this->config->isSync()) {
-            throw new \Exception('Not implemented yed: sync mode');
+            throw new \Exception('Not implemented yet: sync mode');
         } else {
             return new AsyncJobDispatcher($this);
         }

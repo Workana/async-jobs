@@ -67,7 +67,7 @@ class AggregateChildEventException extends Exception
 
             return implode('::', [$class, $listener[1]]);
         } elseif ($listener instanceof Closure) {
-            $reflection = new ReflectionFunction($callable);
+            $reflection = new ReflectionFunction($listener);
 
             return "[closure]#{$reflection->getFileName()}:{$reflection->getStartLine()}";
         } elseif (is_string($listener)) {
@@ -75,7 +75,7 @@ class AggregateChildEventException extends Exception
         } elseif (is_object($listener)) {
             $class = get_class($listener);
 
-            return "[invokable]#{class}";
+            return "[invokable]#{$class}";
         }
     }
 

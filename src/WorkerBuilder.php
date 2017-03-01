@@ -17,6 +17,11 @@ class WorkerBuilder
     protected $jm;
 
     /**
+     * @var string[]
+     */
+    protected $queueNames = [];
+
+    /**
      * Creates a new Worker builder
      *
      * @param JobManager $jm
@@ -26,10 +31,7 @@ class WorkerBuilder
         $this->jm = $jm;
     }
 
-    /**
-     * @var string[]
-     */
-    protected $queueNames = [];
+
 
     /**
      * Using queue
@@ -59,19 +61,6 @@ class WorkerBuilder
         return $this;
     }
 
-    /**
-     * Using Driver class
-     *
-     * @param string $driverClass
-     *
-     * @return self
-     */
-    public function usingDriverClass($driverClass)
-    {
-        $this->driverClass = (string) $driverClass;
-
-        return $this;
-    }
 
     /**
      * Build worker
