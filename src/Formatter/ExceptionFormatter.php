@@ -1,7 +1,7 @@
 <?php
 namespace Workana\AsyncJobs\Formatter;
 
-use Exception;
+use Throwable;
 
 /**
  * Format an exception
@@ -28,6 +28,6 @@ class ExceptionFormatter extends AggregateFormatterAware
      */
     public function canFormat($target)
     {
-        return ($target instanceof Exception);
+        return ($target instanceof Throwable);
     }
 }
