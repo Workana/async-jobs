@@ -30,8 +30,6 @@ class FailoverEventDispatcher extends EventDispatcher
                 call_user_func($listener, $event, $eventName, $this);
             } catch (Throwable $t) {
                 $failedListeners[] = [$listener, $t];
-            } catch (Exception $e) {
-                $failedListeners[] = [$listener, $e];
             }
             
             if ($event->isPropagationStopped()) {

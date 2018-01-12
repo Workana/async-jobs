@@ -2,6 +2,7 @@
 namespace Workana\AsyncJobs\EventDispatching;
 
 use Exception;
+use ProxyManager\Proxy\VirtualProxyInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Workana\AsyncJobs\Exception\AggregateException;
 
@@ -41,6 +42,12 @@ class AggregateRootEventException extends Exception implements AggregateExceptio
 
         foreach ($failedListeners as $failedListenerData) {
             list($listener, $error) = $failedListenerData;
+
+            //If object is a proxy then resolve it to report it further
+            if ($listener[0] instanceof VirtualProxyInterface) {
+                $listener[0]->initializeProxy();
+                $listener[0] = $listener[0]->getWrappedValueHolderValue();
+            }
 
             $this->children[] = new AggregateChildEventException($this, $listener, $error);
         }
