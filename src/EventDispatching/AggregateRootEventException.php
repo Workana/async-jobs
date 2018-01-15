@@ -35,10 +35,11 @@ class AggregateRootEventException extends Exception implements AggregateExceptio
      * @param Event $event
      * @param array $failedListeners Array of arrays in form [$listener, $error]
      */
-    public function __construct($eventName, Event $event, array $failedListeners)
+    public function __construct($eventName, Event $event, array $failedListeners, array $eventListeners)
     {
         $this->eventName = (string) $eventName;
         $this->event = $event;
+        $this->eventListeners = $eventListeners;
 
         foreach ($failedListeners as $failedListenerData) {
             list($listener, $error) = $failedListenerData;
@@ -86,5 +87,14 @@ class AggregateRootEventException extends Exception implements AggregateExceptio
     public function getChildren()
     {
         return $this->children;
+    }
+
+    /**
+     * Event listeners
+     *
+     * @return array
+     */
+    public function getEventListeners(): array {
+        return $this->eventListeners;
     }
 }

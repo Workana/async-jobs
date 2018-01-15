@@ -27,7 +27,8 @@ class FailoverEventDispatcher extends EventDispatcher
 
         foreach ($listeners as $listener) {
             try {
-                call_user_func($listener, $event, $eventName, $this);
+                $this->executeListener($listener, $event, $eventName);
+
             } catch (Throwable $t) {
                 $failedListeners[] = [$listener, $t];
             }
@@ -38,7 +39,17 @@ class FailoverEventDispatcher extends EventDispatcher
         }
 
         if (!empty($failedListeners)) {
-            throw new AggregateRootEventException($eventName, $event, $failedListeners);
+            throw new AggregateRootEventException($eventName, $event, $failedListeners, $listeners);
         }
+    }
+
+    /**
+     * @param callable $listener
+     * @param Event $event
+     * @param string $eventName
+     */
+    protected function executeListener(callable $listener,Event $event,string $eventName)
+    {
+        call_user_func($listener, $event, $eventName, $this);
     }
 }
