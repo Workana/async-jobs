@@ -143,7 +143,7 @@ abstract class Job implements Message
 
     public function dontRetry()
     {
-        $this->setShouldRetry = false;
+        $this->shouldRetry = false;
     }
 
     public function shouldRetry()
