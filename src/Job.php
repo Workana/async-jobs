@@ -148,6 +148,6 @@ abstract class Job implements Message
 
     public function shouldRetry()
     {
-        return $this->shouldRetry;
+        return $this->shouldRetry && $this->areRetriesExhausted();
     }
 }

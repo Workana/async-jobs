@@ -24,7 +24,7 @@ class BinaryExponentialBackoff extends RetryStrategy
             throw new InvalidArgumentException('Envelope message must have a valid job instance');
         }
 
-        if ($job->shouldRetry() && !$job->areRetriesExhausted()) {
+        if ($job->shouldRetry()) {
             $job->incrementRetries();
             $this->redispatch($job);
         }
