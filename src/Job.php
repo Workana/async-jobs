@@ -34,6 +34,11 @@ abstract class Job implements Message
     protected $preferredQueueName;
 
     /**
+     * @var bool
+     */
+    protected $shouldRetry = true;
+
+    /**
      * {@inheritdoc}
      */
     public final function getName()
@@ -134,5 +139,15 @@ abstract class Job implements Message
     public function withPreferredQueueName($preferredQueueName)
     {
         $this->preferredQueueName = $preferredQueueName ?(string) $preferredQueueName : null;
+    }
+
+    public function dontRetry()
+    {
+        $this->shouldRetry = false;
+    }
+
+    public function shouldRetry()
+    {
+        return $this->shouldRetry && $this->areRetriesExhausted();
     }
 }
