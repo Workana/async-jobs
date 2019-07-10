@@ -6,6 +6,7 @@ use Workana\AsyncJobs\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use InvalidArgumentException;
 
 /**
  * @author Carlos Frutos <charly@workana.com>
@@ -32,6 +33,10 @@ class QueueableEntityNormalizer extends AbstractAggregateNormalizerAware impleme
      */
     public function normalize($object, $format = null, array $context = array())
     {
+        if (is_null($object->getId())) {
+            throw new InvalidArgumentException('Entity lacks of a valid id for serialization (has been persisted yet?)');
+        }
+
         return [
             'class' => ClassUtils::getRealClass($object),
             'id' => $object->getId(),
@@ -51,6 +56,10 @@ class QueueableEntityNormalizer extends AbstractAggregateNormalizerAware impleme
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
+        if (!array_key_exists('id', $data) || is_null($data['id'])) {
+            throw new InvalidArgumentException('Entity lacks of an id for deserialization');
+        }
+
         return $this->entityManager->getReference($data['class'], $data['id']);
     }
 
