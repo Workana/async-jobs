@@ -2,7 +2,7 @@
 namespace Workana\AsyncJobs\Executor;
 
 use Workana\AsyncJobs\AsyncAction;
-use Psr\Container\ContainerInterface ;
+use Interop\Container\ContainerInterface;
 
 /**
  * Async action executor

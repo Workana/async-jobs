@@ -4,7 +4,7 @@ namespace Workana\AsyncJobs\Tests\Executor;
 use Workana\AsyncJobs\Tests\Test;
 use Workana\AsyncJobs\AsyncAction;
 use Workana\AsyncJobs\Executor\AsyncActionExecutor;
-use Psr\Container\ContainerInterface ;
+use Interop\Container\ContainerInterface;
 use Mockery as m;
 
 class AsyncActionExecutorTest extends Test
