@@ -56,8 +56,8 @@ class QueueableEntityNormalizer extends AbstractAggregateNormalizerAware impleme
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        if (!array_key_exists('id', $data) || is_null($data['id'])) {
-            throw new InvalidArgumentException('Entity lacks of an id for deserialization');
+        if (!empty($data['id'])) {
+            return null;
         }
 
         return $this->entityManager->getReference($data['class'], $data['id']);
