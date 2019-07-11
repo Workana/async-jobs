@@ -56,7 +56,7 @@ class QueueableEntityNormalizer extends AbstractAggregateNormalizerAware impleme
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        if (!empty($data['id'])) {
+        if (empty($data['id']) || empty($data['class'])) {
             return null;
         }
 
