@@ -2,7 +2,7 @@
 namespace Workana\AsyncJobs\Executor;
 
 use Workana\AsyncJobs\AsyncEvent;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface ;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
