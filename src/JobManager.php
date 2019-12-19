@@ -4,7 +4,7 @@ namespace Workana\AsyncJobs;
 use Bernard\Driver;
 use Bernard\Serializer;
 use Bernard\QueueFactory\PersistentFactory;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface ;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Normalt\Normalizer\AggregateNormalizer;
 use Workana\AsyncJobs\Dispatcher\AsyncJobDispatcher;
