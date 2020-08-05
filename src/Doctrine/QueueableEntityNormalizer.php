@@ -2,6 +2,7 @@
 namespace Workana\AsyncJobs\Doctrine;
 
 use Bernard\Normalizer\AbstractAggregateNormalizerAware;
+use Workana\AsyncJobs\Configuration;
 use Workana\AsyncJobs\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -13,19 +14,24 @@ use InvalidArgumentException;
  */
 class QueueableEntityNormalizer extends AbstractAggregateNormalizerAware implements NormalizerInterface, DenormalizerInterface
 {
+    const GEDMO_SOFTDELETE_FILTER_NAME = 'soft-deleteable';
+
     /**
      * @var EntityManagerInterface
      */
     protected $entityManager;
 
     /**
-     * QueueableEntityNormalizer constructor.
-     *
-     * @param EntityManagerInterface $entityManager
+     * @var Configuration
      */
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    private $config;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        Configuration  $config
+    ) {
         $this->entityManager = $entityManager;
+        $this->config = $config;
     }
 
     /**
@@ -60,7 +66,49 @@ class QueueableEntityNormalizer extends AbstractAggregateNormalizerAware impleme
             return null;
         }
 
-        return $this->entityManager->getReference($data['class'], $data['id']);
+        $shouldHandleSoftDelete = $this->shouldDisableGedmoSoftDeletableBehaviour();
+
+        if ($shouldHandleSoftDelete)  {
+            $this->toggleSoftDeleteFilter();
+        }
+
+        $entity =  $this->entityManager->getReference($data['class'], $data['id']);
+
+        if ($shouldHandleSoftDelete)  {
+            $this->toggleSoftDeleteFilter();
+        }
+
+        return $entity;
+    }
+
+    /**
+     * This toggle -alongside environment check- is used to temporary disable and restore soft delete status after
+     * retrieving entity
+     *
+     * @return void
+     */
+    private function toggleSoftDeleteFilter()
+    {
+        $filters = $this->entityManager->getFilters();
+
+        $filters->isEnabled(self::GEDMO_SOFTDELETE_FILTER_NAME) ?
+            $filters->disable(self::GEDMO_SOFTDELETE_FILTER_NAME) :
+            $filters->enable(self::GEDMO_SOFTDELETE_FILTER_NAME);
+    }
+
+    /**
+     * Checks if Gedmo SoftDelete behaviour should be handled on denormalization
+     *
+     * @return bool
+     */
+    private function shouldDisableGedmoSoftDeletableBehaviour()
+    {
+        $filters = $this->entityManager->getFilters();
+        return (
+            $filters->has(self::GEDMO_SOFTDELETE_FILTER_NAME) &&
+            $filters->isEnabled(self::GEDMO_SOFTDELETE_FILTER_NAME) &&
+            ! $this->config->isEnabledGedmoSoftDeleteBehaviour()
+        );
     }
 
     /**

@@ -24,6 +24,7 @@ class Configuration
             'normalizerClasses' => [],
             'defaultQueueName' => 'default',
             'useDoctrine' => false,
+            'enableGedmoSoftDeleteBehaviour' => true,
             'sync' => false,
             'dispatchingRules' => [],
         ];
@@ -97,6 +98,14 @@ class Configuration
     public function isUsingDoctrine()
     {
         return $this->attributes['useDoctrine'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabledGedmoSoftDeleteBehaviour()
+    {
+        return $this->attributes['enableGedmoSoftDeleteBehaviour'];
     }
 
     /**
