@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use InvalidArgumentException;
+use Doctrine\Common\Persistence\Proxy;
 
 /**
  * @author Carlos Frutos <charly@workana.com>
@@ -69,12 +70,19 @@ class QueueableEntityNormalizer extends AbstractAggregateNormalizerAware impleme
         $shouldHandleSoftDelete = $this->shouldDisableGedmoSoftDeletableBehaviour();
 
         if ($shouldHandleSoftDelete)  {
+            //Disable softdelete filter context applies
             $this->toggleSoftDeleteFilter();
         }
 
         $entity =  $this->entityManager->getReference($data['class'], $data['id']);
 
         if ($shouldHandleSoftDelete)  {
+            //Make sure entity is loaded if it is beign proxied
+            if ($entity instanceof Proxy) {
+                $entity->__load();
+            }
+
+            //Finally restore softdelete filter to previous state
             $this->toggleSoftDeleteFilter();
         }
 
