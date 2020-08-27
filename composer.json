@@ -3,7 +3,7 @@
     "description": "Job queue manager for multiple message queue systems",
     "type": "library",
     "require-dev": {
-        "mockery/mockery": "^0.9.6"
+        "mockery/mockery": "^0.9.6 || ^1.0.0"
     },
     "autoload": {
         "psr-4": {
