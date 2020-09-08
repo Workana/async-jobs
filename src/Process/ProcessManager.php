@@ -1,4 +1,5 @@
-<?php namespace Workana\AsyncJobs\Process;
+<?php
+namespace Workana\AsyncJobs\Process;
 
 use Ko\ProcessManager as PM;
 
