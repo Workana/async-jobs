@@ -168,7 +168,7 @@ class Worker
     }
 
     /**
-     * Get Process Managerç
+     * Get Process Manager
      *
      * @return ProcessManager
      */
