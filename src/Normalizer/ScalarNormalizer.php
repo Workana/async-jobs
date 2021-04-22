@@ -1,11 +1,26 @@
 <?php
 namespace Workana\AsyncJobs\Normalizer;
 
+use Normalt\Normalizer\AggregateNormalizer;
+use Normalt\Normalizer\AggregateNormalizerAware;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class ScalarNormalizer implements NormalizerInterface, DenormalizerInterface
+class ScalarNormalizer implements NormalizerInterface, DenormalizerInterface, AggregateNormalizerAware
 {
+    /**
+     * @var AggregateNormalizer
+     */
+    private $aggregate;
+
+    /**
+     * @param AggregateNormalizer $aggregate
+     */
+    public function setAggregateNormalizer(AggregateNormalizer $aggregate)
+    {
+        $this->aggregate = $aggregate;
+    }
+
     private $castFunctionMap = [
         'integer' => 'intval',
         'string' => 'strval',

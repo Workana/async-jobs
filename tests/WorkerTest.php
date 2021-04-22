@@ -114,8 +114,8 @@ class WorkerTest extends Test
             ->with(AsyncJobsEvents::AFTER_EXECUTION, m::type(AfterExecutionEvent::class))
             ->once();
 
-        $envelope = m::mock(Envelope::class);
-        $envelope->shouldReceive('getMessage')->andReturn($message = new AsyncAction('Foo', 'Bar'));
+        $message = $message = new AsyncAction('Foo', 'Bar');
+        $envelope = new Envelope($message);
         
         $this->mockedQueue->shouldReceive('acknowledge')->with($envelope)->once()->byDefault();
 
@@ -179,8 +179,7 @@ class WorkerTest extends Test
             $calls++;
         });
 
-        $envelope = m::mock(Envelope::class);
-        $envelope->shouldReceive('getMessage')->andReturn($message = new AsyncAction('Foo', 'Bar'));
+        $envelope = new Envelope(new AsyncAction('Foo', 'Bar'));
 
         $this->mockedQueue->shouldReceive('dequeue')->times(3)->andReturn($envelope);
 

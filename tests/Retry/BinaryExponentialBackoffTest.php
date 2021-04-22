@@ -1,10 +1,10 @@
 <?php
 namespace Workana\AsyncJobs\Tests\Retry;
 
-use Assert\InvalidArgumentException;
 use Bernard\Envelope;
 use Bernard\Message;
 use Exception;
+use InvalidArgumentException;
 use Workana\AsyncJobs\AsyncAction;
 use Workana\AsyncJobs\JobManager;
 use Workana\AsyncJobs\Retry\BinaryExponentialBackoff;
@@ -82,12 +82,11 @@ class BinaryExponentialBackoffTest extends Test
         ], $retriesLog);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Envelope message must have a valid job instance
-     */
     public function testHandleRetryNotJobInstance()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Envelope message must have a valid job instance');
+
         $envelope = new Envelope(m::mock(Message::class));
         $this->sut->handleRetry($envelope, m::mock(Exception::class));
     }

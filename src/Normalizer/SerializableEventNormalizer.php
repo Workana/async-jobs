@@ -1,6 +1,8 @@
 <?php
 namespace Workana\AsyncJobs\Normalizer;
 
+use Normalt\Normalizer\AggregateNormalizer;
+use Normalt\Normalizer\AggregateNormalizerAware;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Workana\AsyncJobs\Parameter;
@@ -9,8 +11,21 @@ use Workana\AsyncJobs\SerializableEvent;
 /**
  * @author Carlos Frutos <charly@workana.com>
  */
-class SerializableEventNormalizer implements NormalizerInterface, DenormalizerInterface
+class SerializableEventNormalizer implements NormalizerInterface, DenormalizerInterface, AggregateNormalizerAware
 {
+    /**
+     * @var AggregateNormalizer
+     */
+    private $aggregate;
+
+    /**
+     * @param AggregateNormalizer $aggregate
+     */
+    public function setAggregateNormalizer(AggregateNormalizer $aggregate)
+    {
+        $this->aggregate = $aggregate;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -29,7 +44,7 @@ class SerializableEventNormalizer implements NormalizerInterface, DenormalizerIn
     /**
      * {@inheritDoc}
      */
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null): bool
     {
         return ($data instanceof SerializableEvent);
     }
@@ -54,7 +69,7 @@ class SerializableEventNormalizer implements NormalizerInterface, DenormalizerIn
     /**
      * {@inheritDoc}
      */
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization($data, $type, $format = null): bool
     {
         return is_a($type, SerializableEvent::class, true);
     }

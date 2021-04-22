@@ -2,6 +2,9 @@
 namespace Workana\AsyncJobs\Normalizer;
 
 use Assert\Assertion;
+use InvalidArgumentException;
+use Normalt\Normalizer\AggregateNormalizer;
+use Normalt\Normalizer\AggregateNormalizerAware;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
@@ -13,9 +16,22 @@ use Workana\AsyncJobs\Parameter;
  *
  * @author Carlos Frutos <charly@workana.com>
  */
-class AsyncActionNormalizer implements NormalizerInterface, DenormalizerInterface
+class AsyncActionNormalizer implements NormalizerInterface, DenormalizerInterface, AggregateNormalizerAware
 {
     use JobOptionsExtractor;
+
+    /**
+     * @var AggregateNormalizer
+     */
+    private $aggregate;
+
+    /**
+     * @param AggregateNormalizer $aggregate
+     */
+    public function setAggregateNormalizer(AggregateNormalizer $aggregate)
+    {
+        $this->aggregate = $aggregate;
+    }
 
     /**
      * {@inheritdoc}
