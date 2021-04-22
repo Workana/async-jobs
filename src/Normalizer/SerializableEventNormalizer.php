@@ -1,7 +1,6 @@
 <?php
 namespace Workana\AsyncJobs\Normalizer;
 
-use Bernard\Normalizer\AbstractAggregateNormalizerAware;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Workana\AsyncJobs\Parameter;
@@ -10,7 +9,7 @@ use Workana\AsyncJobs\SerializableEvent;
 /**
  * @author Carlos Frutos <charly@workana.com>
  */
-class SerializableEventNormalizer extends AbstractAggregateNormalizerAware  implements NormalizerInterface, DenormalizerInterface
+class SerializableEventNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     /**
      * {@inheritDoc}

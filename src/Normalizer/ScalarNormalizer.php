@@ -1,11 +1,10 @@
 <?php
 namespace Workana\AsyncJobs\Normalizer;
 
-use Bernard\Normalizer\AbstractAggregateNormalizerAware;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class ScalarNormalizer extends AbstractAggregateNormalizerAware implements NormalizerInterface, DenormalizerInterface
+class ScalarNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     private $castFunctionMap = [
         'integer' => 'intval',
