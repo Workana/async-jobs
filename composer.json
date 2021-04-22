@@ -2,6 +2,7 @@
     "name": "workana/async-jobs",
     "description": "Job queue manager for multiple message queue systems",
     "type": "library",
+    "license": "MIT",
     "require-dev": {
         "mockery/mockery": "^0.9.6"
     },
