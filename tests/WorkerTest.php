@@ -10,7 +10,6 @@ use Bernard\Message;
 use Workana\AsyncJobs\AsyncAction;
 use Workana\AsyncJobs\Event\SuccessfulExecutionEvent;
 use Workana\AsyncJobs\Event\WorkerShutdownEvent;
-use Workana\AsyncJobs\Job;
 use Workana\AsyncJobs\Retry\RetryStrategy;
 use Workana\AsyncJobs\Worker;
 use Workana\AsyncJobs\Normalizer\Accesor;
@@ -51,7 +50,7 @@ class WorkerTest extends Test
      */
     protected $mockedRetryStrategy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mockedRouter = m::mock(Router::class);
 
