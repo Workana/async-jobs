@@ -29,5 +29,7 @@
         "psr/container": "^1.0",
         "bernard/bernard": "1.0.0-alpha9",
         "doctrine/orm": "^2.6"
-    }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "alpha"
 }
