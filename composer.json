@@ -28,7 +28,6 @@
         "misterion/ko-process": "^0.5.3",
         "psr/container": "^1.0",
         "bernard/bernard": "dev-master",
-        "bernard/drivers": "dev-master",
         "doctrine/orm": "^2.6"
     }
 }
