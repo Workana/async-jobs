@@ -1,12 +1,12 @@
 <?php
 namespace Workana\AsyncJobs\Tests;
 
-use PHPUnit_Framework_TestCase as PHPUnitTest;
+use PHPUnit\Framework\TestCase;
 use Mockery as m;
 
-abstract class Test extends PHPUnitTest
+abstract class Test extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }
