@@ -30,5 +30,5 @@
         "bernard/bernard": "dev-master#1144b4dd9b87f22091dfceabb91d74f295ade034",
         "doctrine/orm": "^2.6"
     },
-    "prefer-stable": true,
+    "prefer-stable": true
 }
