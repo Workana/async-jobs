@@ -59,6 +59,11 @@ class Worker
     protected $shutdownSignal = null;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * Create a new Worker
      *
      * @param Queue $queue
@@ -152,7 +157,7 @@ class Worker
         try {
             $this->stopwatch->start();
 
-            call_user_func($this->router->map($envelope), $envelope->getMessage());
+            call_user_func($this->router->route($envelope)->receive($envelope->getMessage()));
 
             $this->queue->acknowledge($envelope);
 
@@ -168,7 +173,7 @@ class Worker
     }
 
     /**
-     * Get Process Managerç
+     * Get Process Manager
      *
      * @return ProcessManager
      */

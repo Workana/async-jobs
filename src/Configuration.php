@@ -1,9 +1,11 @@
 <?php
 namespace Workana\AsyncJobs;
 
+use Bernard\Router;
+use Bernard\Router\ReceiverMapRouter;
 use InvalidArgumentException;
+use Workana\AsyncJobs\Executor\AsyncActionExecutor;
 use Workana\AsyncJobs\Retry\BinaryExponentialBackoff;
-use Workana\AsyncJobs\Router\DefaultRouter;
 
 /**
  * @author Carlos Frutos <charly@workana.com>
@@ -17,8 +19,10 @@ class Configuration
 
     public function __construct(array $options)
     {
+        $router = new ReceiverMapRouter(['AsyncAction' => AsyncActionExecutor::class, 'AsyncEvent' => AsyncActionExecutor::class]);
+
         $this->attributes = $options + [
-            'routerClass' => DefaultRouter::class,
+            'router' => $router,
             'driverClass' => null,
             'retryStrategyClass' => BinaryExponentialBackoff::class,
             'normalizerClasses' => [],
@@ -37,11 +41,11 @@ class Configuration
     /**
      * Get router class
      *
-     * @return string
+     * @return Router
      */
-    public function getRouterClass()
+    public function getRouter(): Router
     {
-        return $this->attributes['routerClass'];
+        return $this->attributes['router'];
     }
 
     /**

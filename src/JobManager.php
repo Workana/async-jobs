@@ -73,7 +73,7 @@ class JobManager
         $serializer = $this->createSerializer();
         $this->queueFactory = new PersistentFactory($this->driver, $serializer);
 
-        $this->router = $this->container->get($config->getRouterClass());
+        $this->router = $config->getRouter();
         $this->jobDispatcher = $this->createDispatcher();
     }
 
