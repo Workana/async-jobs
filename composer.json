@@ -27,9 +27,8 @@
     "require": {
         "misterion/ko-process": "^0.5.3",
         "psr/container": "^1.0",
-        "bernard/bernard": "1.0.0-alpha9",
+        "bernard/bernard": "dev-master#1144b4dd9b87f22091dfceabb91d74f295ade034",
         "doctrine/orm": "^2.6"
     },
     "prefer-stable": true,
-    "minimum-stability": "alpha"
 }
