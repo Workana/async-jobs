@@ -23,14 +23,9 @@
         }
     ],
     "require": {
-        "bernard/bernard": "dev-master",
         "misterion/ko-process": "^0.5.3",
-        "psr/container": "^1.0"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:cfrutos/bernard.git"
-        }
-    ]
+        "psr/container": "^1.0",
+        "bernard/bernard": "dev-master",
+        "bernard/drivers": "dev-master"
+    }
 }
