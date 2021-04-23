@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.GITHUB_TOKEN }}" }}'
-
     steps:
     - uses: actions/checkout@v2
     - name: Cache Composer packages
@@ -23,7 +20,9 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --ignore-platform-req=php
+      run: |
+        composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+        composer install --prefer-dist --no-progress --ignore-platform-req=php
 
     - name: Run test suite
       run: vendor/bin/phpunit
