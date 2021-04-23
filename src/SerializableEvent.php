@@ -1,7 +1,7 @@
 <?php
 namespace Workana\AsyncJobs;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @author Carlos Frutos <charly@workana.com>

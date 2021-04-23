@@ -108,7 +108,7 @@ class Worker
     {
         $this->shutdownSignal = $signal;
 
-        $this->eventDispatcher->dispatch(AsyncJobsEvents::WORKER_SHUTDOWN, new WorkerShutdownEvent());
+        $this->eventDispatcher->dispatch(new WorkerShutdownEvent(), AsyncJobsEvents::WORKER_SHUTDOWN);
     }
 
     /**
@@ -147,7 +147,7 @@ class Worker
      */
     public function invoke(Envelope $envelope)
     {
-        $this->eventDispatcher->dispatch(AsyncJobsEvents::BEFORE_EXECUTION, new BeforeExecutionEvent());
+        $this->eventDispatcher->dispatch(new BeforeExecutionEvent(), AsyncJobsEvents::BEFORE_EXECUTION);
 
         try {
             $this->stopwatch->start();
@@ -157,14 +157,14 @@ class Worker
             $this->queue->acknowledge($envelope);
 
             $info = new ExecutionInfo($envelope->getMessage(), $this->queue, $this->stopwatch);
-            $this->eventDispatcher->dispatch(AsyncJobsEvents::SUCCESSFUL_EXECUTION, new SuccessfulExecutionEvent($envelope, $this, $info));
+            $this->eventDispatcher->dispatch(new SuccessfulExecutionEvent($envelope, $this, $info), AsyncJobsEvents::SUCCESSFUL_EXECUTION);
         } catch (Throwable $t) {
             $this->handleRejected($envelope, $t);
         } catch (Exception $e) {
             $this->handleRejected($envelope, $e);
         }
 
-        $this->eventDispatcher->dispatch(AsyncJobsEvents::AFTER_EXECUTION, new AfterExecutionEvent());
+        $this->eventDispatcher->dispatch(new AfterExecutionEvent(), AsyncJobsEvents::AFTER_EXECUTION);
     }
 
     /**
@@ -186,12 +186,12 @@ class Worker
     protected function handleRejected(Envelope $envelope, $error)
     {
         $info = new ExecutionInfo($envelope->getMessage(), $this->queue, $this->stopwatch);
-        $this->eventDispatcher->dispatch(AsyncJobsEvents::REJECTED_EXECUTION, new RejectedExecutionEvent(
+        $this->eventDispatcher->dispatch(new RejectedExecutionEvent(
             $envelope,
             $error,
             $this,
             $info
-        ));
+        ), AsyncJobsEvents::REJECTED_EXECUTION);
 
         $this->queue->acknowledge($envelope);
         $this->retryStrategy->handleRetry($envelope, $error);

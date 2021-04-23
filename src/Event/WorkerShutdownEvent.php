@@ -1,6 +1,6 @@
 <?php
 namespace Workana\AsyncJobs\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class WorkerShutdownEvent extends Event {}

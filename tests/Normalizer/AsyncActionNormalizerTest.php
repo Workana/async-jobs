@@ -1,6 +1,7 @@
 <?php
 namespace Workana\AsyncJobs\Tests\Normalizer;
 
+use InvalidArgumentException;
 use Workana\AsyncJobs\AsyncAction;
 use Workana\AsyncJobs\Normalizer\Accesor;
 use Workana\AsyncJobs\Normalizer\AsyncActionNormalizer;
@@ -13,7 +14,7 @@ class AsyncActionNormalizerTest extends Test
      */
     protected $sut;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -39,12 +40,11 @@ class AsyncActionNormalizerTest extends Test
         ], $normalizedAction['options']);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage The following options are missing: retries, preferredQueueName
-     */
     public function testDenormalizeWithoutAllOptions()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectDeprecationMessage('The following options are missing: retries, preferredQueueName');
+
         $data = [
             'class' => 'Namespace\Of\Class',
             'actionClass' => AsyncAction::class,
@@ -112,14 +112,15 @@ class AsyncActionNormalizerTest extends Test
      */
     public function testDenormalizeAsyncActionMissingKey($key)
     {
-        $data = $this->getNormalizedCanonicalAsyncAction();
-        unset($data[$key]);
-
+        $this->expectException(\Assert\InvalidArgumentException::class);
         $expectedMessage = strtr('The element with key ":key" was not found', [
             ':key' => $key
         ]);
+        $this->expectDeprecationMessage($expectedMessage);
 
-        $this->setExpectedException(\Assert\InvalidArgumentException::class, $expectedMessage);
+        $data = $this->getNormalizedCanonicalAsyncAction();
+        unset($data[$key]);
+        
         $this->sut->denormalize($data, AsyncAction::class);
     }
 }

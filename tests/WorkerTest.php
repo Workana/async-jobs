@@ -10,7 +10,6 @@ use Bernard\Message;
 use Workana\AsyncJobs\AsyncAction;
 use Workana\AsyncJobs\Event\SuccessfulExecutionEvent;
 use Workana\AsyncJobs\Event\WorkerShutdownEvent;
-use Workana\AsyncJobs\Job;
 use Workana\AsyncJobs\Retry\RetryStrategy;
 use Workana\AsyncJobs\Worker;
 use Workana\AsyncJobs\Normalizer\Accesor;
@@ -51,7 +50,7 @@ class WorkerTest extends Test
      */
     protected $mockedRetryStrategy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mockedRouter = m::mock(Router::class);
 
@@ -104,19 +103,19 @@ class WorkerTest extends Test
         $stopwatch->shouldReceive('elapsed')->andReturn(1);
 
         $this->mockedEventDispatcher->shouldReceive('dispatch')
-            ->with(AsyncJobsEvents::BEFORE_EXECUTION, m::type(BeforeExecutionEvent::class))
+            ->with(m::type(BeforeExecutionEvent::class), AsyncJobsEvents::BEFORE_EXECUTION)
             ->once();
 
         $this->mockedEventDispatcher->shouldReceive('dispatch')
-            ->with(AsyncJobsEvents::SUCCESSFUL_EXECUTION, m::type(SuccessfulExecutionEvent::class))
+            ->with(m::type(SuccessfulExecutionEvent::class), AsyncJobsEvents::SUCCESSFUL_EXECUTION)
             ->once();
 
         $this->mockedEventDispatcher->shouldReceive('dispatch')
-            ->with(AsyncJobsEvents::AFTER_EXECUTION, m::type(AfterExecutionEvent::class))
+            ->with(m::type(AfterExecutionEvent::class), AsyncJobsEvents::AFTER_EXECUTION)
             ->once();
 
-        $envelope = m::mock(Envelope::class);
-        $envelope->shouldReceive('getMessage')->andReturn($message = new AsyncAction('Foo', 'Bar'));
+        $message = new AsyncAction('Foo', 'Bar');
+        $envelope = new Envelope($message);
         
         $this->mockedQueue->shouldReceive('acknowledge')->with($envelope)->once()->byDefault();
 
@@ -133,15 +132,15 @@ class WorkerTest extends Test
     public function testInvokeAndRejected()
     {
         $this->mockedEventDispatcher->shouldReceive('dispatch')
-            ->with(AsyncJobsEvents::BEFORE_EXECUTION, m::type(BeforeExecutionEvent::class))
+            ->with(m::type(BeforeExecutionEvent::class), AsyncJobsEvents::BEFORE_EXECUTION)
             ->once();
 
         $this->mockedEventDispatcher->shouldReceive('dispatch')
-            ->with(AsyncJobsEvents::REJECTED_EXECUTION, m::type(RejectedExecutionEvent::class))
+            ->with(m::type(RejectedExecutionEvent::class), AsyncJobsEvents::REJECTED_EXECUTION)
             ->once();
 
         $this->mockedEventDispatcher->shouldReceive('dispatch')
-            ->with(AsyncJobsEvents::AFTER_EXECUTION, m::type(AfterExecutionEvent::class))
+            ->with(m::type(AfterExecutionEvent::class), AsyncJobsEvents::AFTER_EXECUTION)
             ->once();
 
         $envelope = new Envelope(new AsyncAction('Foo', 'Bar'));
@@ -180,8 +179,7 @@ class WorkerTest extends Test
             $calls++;
         });
 
-        $envelope = m::mock(Envelope::class);
-        $envelope->shouldReceive('getMessage')->andReturn($message = new AsyncAction('Foo', 'Bar'));
+        $envelope = new Envelope(new AsyncAction('Foo', 'Bar'));
 
         $this->mockedQueue->shouldReceive('dequeue')->times(3)->andReturn($envelope);
 
@@ -206,7 +204,7 @@ class WorkerTest extends Test
 
         $this->mockedEventDispatcher->shouldReceive('dispatch')
                 ->once()
-                ->with(AsyncJobsEvents::WORKER_SHUTDOWN, m::type(WorkerShutdownEvent::class));
+                ->with(m::type(WorkerShutdownEvent::class), AsyncJobsEvents::WORKER_SHUTDOWN);
 
         $sleeper = m::mock(Sleeper::class);
         $sleeper->shouldReceive('sleep')->with(1)->times(5);

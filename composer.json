@@ -2,8 +2,10 @@
     "name": "workana/async-jobs",
     "description": "Job queue manager for multiple message queue systems",
     "type": "library",
+    "license": "MIT",
     "require-dev": {
-        "mockery/mockery": "^0.9.6"
+        "mockery/mockery": "^1.4",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
@@ -18,19 +20,20 @@
     },
     "authors": [
         {
-            "name": "Carlos Frutos",
-            "email": "charly@workana.com"
+            "name": "Workana",
+            "email": "support@workana.com"
         }
     ],
     "require": {
-        "bernard/bernard": "dev-master",
+        "bernard/bernard": "dev-workana",
         "misterion/ko-process": "^0.5.3",
         "psr/container": "^1.0"
     },
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:cfrutos/bernard.git"
+            "url": "git@github.com:workana/bernard.git"
         }
-    ]
+    ],
+    "prefer-stable": true
 }

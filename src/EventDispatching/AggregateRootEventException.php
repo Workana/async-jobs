@@ -2,7 +2,7 @@
 namespace Workana\AsyncJobs\EventDispatching;
 
 use Exception;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 use Workana\AsyncJobs\Exception\AggregateException;
 
 /**

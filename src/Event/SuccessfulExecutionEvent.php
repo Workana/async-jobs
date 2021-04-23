@@ -2,7 +2,7 @@
 namespace Workana\AsyncJobs\Event;
 
 use Bernard\Envelope;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 use Workana\AsyncJobs\ExecutionInfo;
 use Workana\AsyncJobs\Worker;
 

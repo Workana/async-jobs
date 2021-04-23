@@ -1,21 +1,35 @@
 <?php
 namespace Workana\AsyncJobs\Doctrine;
 
-use Bernard\Normalizer\AbstractAggregateNormalizerAware;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\Proxy;
+use Normalt\Normalizer\AggregateNormalizer;
+use Normalt\Normalizer\AggregateNormalizerAware;
 use Workana\AsyncJobs\Configuration;
 use Workana\AsyncJobs\Util\ClassUtils;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use InvalidArgumentException;
-use Doctrine\Common\Persistence\Proxy;
 
 /**
  * @author Carlos Frutos <charly@workana.com>
  */
-class QueueableEntityNormalizer extends AbstractAggregateNormalizerAware implements NormalizerInterface, DenormalizerInterface
+class QueueableEntityNormalizer implements NormalizerInterface, DenormalizerInterface, AggregateNormalizerAware
 {
-    const GEDMO_SOFTDELETE_FILTER_NAME = 'soft-deleteable';
+    public const GEDMO_SOFTDELETE_FILTER_NAME = 'soft-deleteable';
+
+    /**
+     * @var AggregateNormalizer
+     */
+    private $aggregate;
+
+    /**
+     * @param AggregateNormalizer $aggregate
+     */
+    public function setAggregateNormalizer(AggregateNormalizer $aggregate)
+    {
+        $this->aggregate = $aggregate;
+    }
 
     /**
      * @var EntityManagerInterface
