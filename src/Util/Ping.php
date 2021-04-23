@@ -27,6 +27,6 @@ class Ping
      */
     public function ping()
     {
-        $this->jm->getEventDispatcher()->dispatch(AsyncJobsEvents::PING, new PingEvent());
+        $this->jm->getEventDispatcher()->dispatch(new PingEvent(), AsyncJobsEvents::PING);
     }
 }

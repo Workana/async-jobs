@@ -2,7 +2,6 @@
 namespace Workana\AsyncJobs\Executor;
 
 use Workana\AsyncJobs\AsyncEvent;
-use Psr\Container\ContainerInterface ;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -34,6 +33,6 @@ class AsyncEventExecutor
      */
     public function __invoke(AsyncEvent $asyncEvent)
     {
-        $this->eventDispatcher->dispatch($asyncEvent->getEventName(), $asyncEvent->getEvent());
+        $this->eventDispatcher->dispatch($asyncEvent->getEvent(), $asyncEvent->getEventName());
     }
 }
