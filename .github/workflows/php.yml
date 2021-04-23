@@ -7,12 +7,12 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    env:
+      COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.GITHUB_TOKEN }}" }}'
 
     steps:
     - uses: actions/checkout@v2
-
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
