@@ -28,6 +28,11 @@ class AggregateRootEventException extends Exception implements AggregateExceptio
     protected $children = [];
 
     /**
+     * @var array
+     */
+    private $eventListeners;
+
+    /**
      * Creates a new aggregate exception
      * 
      * @param string $eventName
@@ -87,7 +92,8 @@ class AggregateRootEventException extends Exception implements AggregateExceptio
      *
      * @return array
      */
-    public function getEventListeners(): array {
+    public function getEventListeners(): array
+    {
         return $this->eventListeners;
     }
 }

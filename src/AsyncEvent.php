@@ -13,7 +13,7 @@ class AsyncEvent extends AsyncAction
      */
     public function __construct($eventName, SerializableEvent $event)
     {
-        parent::__construct(EventDispatcherInterface::class, 'dispatch', [$eventName, $event]);
+        parent::__construct(EventDispatcherInterface::class, 'dispatch', [$event, $eventName]);
     }
 
     /**
