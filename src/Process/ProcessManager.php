@@ -2,6 +2,7 @@
 namespace Workana\AsyncJobs\Process;
 
 use Ko\ProcessManager as PM;
+use Ko\SignalHandler;
 
 /**
  * Internal Process Manager

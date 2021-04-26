@@ -2,9 +2,9 @@
 namespace Workana\AsyncJobs\Retry;
 
 use Bernard\Envelope;
-use Bernard\Queue;
+use Exception;
+use Throwable;
 use Workana\AsyncJobs\JobManager;
-use Workana\AsyncJobs\Job;
 
 /**
  * Abstract retry strategy

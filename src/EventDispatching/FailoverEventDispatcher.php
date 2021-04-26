@@ -1,10 +1,9 @@
 <?php
 namespace Workana\AsyncJobs\EventDispatching;
 
-use Exception;
-use Throwable;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Contracts\EventDispatcher\Event;
+use Throwable;
 
 /**
  * Failover event dispatcher
