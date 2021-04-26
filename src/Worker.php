@@ -158,10 +158,10 @@ class Worker
 
             $info = new ExecutionInfo($envelope->getMessage(), $this->queue, $this->stopwatch);
             $this->eventDispatcher->dispatch(new SuccessfulExecutionEvent($envelope, $this, $info), AsyncJobsEvents::SUCCESSFUL_EXECUTION);
-        } catch (Throwable $t) {
-            $this->handleRejected($envelope, $t);
         } catch (Exception $e) {
             $this->handleRejected($envelope, $e);
+        } catch (Throwable $t) {
+            $this->handleRejected($envelope, $t);
         }
 
         $this->eventDispatcher->dispatch(new AfterExecutionEvent(), AsyncJobsEvents::AFTER_EXECUTION);

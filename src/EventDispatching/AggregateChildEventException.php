@@ -1,8 +1,10 @@
 <?php
 namespace Workana\AsyncJobs\EventDispatching;
 
+use Closure;
 use Exception;
 use ReflectionFunction;
+use Throwable;
 
 /**
  * Aggregate child of event exception

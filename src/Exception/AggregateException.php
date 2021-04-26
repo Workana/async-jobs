@@ -1,6 +1,8 @@
 <?php
 namespace Workana\AsyncJobs\Exception;
 
+use Exception;
+
 /**
  * Aggregate exception
  *

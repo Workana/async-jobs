@@ -1,7 +1,9 @@
 <?php
 namespace Workana\AsyncJobs\Event;
 
+use Exception;
 use Symfony\Contracts\EventDispatcher\Event;
+use Throwable;
 use Workana\AsyncJobs\ExecutionInfo;
 use Workana\AsyncJobs\Job;
 use Bernard\Envelope;
