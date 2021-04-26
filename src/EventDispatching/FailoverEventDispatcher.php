@@ -11,6 +11,9 @@ use Throwable;
  */
 class FailoverEventDispatcher extends EventDispatcher
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function callListeners(iterable $listeners, string $eventName, $event)
     {
         /**
