@@ -23,7 +23,7 @@ class AggregateRootEventException extends Exception implements AggregateExceptio
     protected $event;
 
     /**
-     * @var ChildEventException[]
+     * @var AggregateChildEventException[]
      */
     protected $children = [];
 
@@ -75,9 +75,9 @@ class AggregateRootEventException extends Exception implements AggregateExceptio
     /**
      * Children exceptions
      *
-     * @return AggregateChildEventException
+     * @return AggregateChildEventException[]
      */
-    public function getChildren()
+    public function getChildren(): array
     {
         return $this->children;
     }
