@@ -21,7 +21,7 @@ class AsyncEvent extends AsyncAction
      */
     public function getEventName()
     {
-        return $this->parameters[0]->getValue();
+        return $this->parameters[1]->getValue();
     }
 
     /**
@@ -29,7 +29,7 @@ class AsyncEvent extends AsyncAction
      */
     public function getEvent()
     {
-        return $this->parameters[1]->getValue();
+        return $this->parameters[0]->getValue();
     }
 
     /**
