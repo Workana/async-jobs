@@ -7,6 +7,7 @@ use Bernard\QueueFactory\PersistentFactory;
 use Psr\Container\ContainerInterface ;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Normalt\Normalizer\AggregateNormalizer;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Workana\AsyncJobs\Dispatcher\AsyncJobDispatcher;
 use Bernard\Normalizer\EnvelopeNormalizer;
 use Workana\AsyncJobs\Doctrine\QueueableEntityNormalizer;
