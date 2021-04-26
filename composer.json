@@ -5,7 +5,8 @@
     "license": "MIT",
     "require-dev": {
         "mockery/mockery": "^1.4",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "vimeo/psalm": "^4.7"
     },
     "autoload": {
         "psr-4": {
