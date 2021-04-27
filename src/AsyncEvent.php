@@ -2,40 +2,56 @@
 namespace Workana\AsyncJobs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @author Carlos Frutos <charly@workana.com>
- */
 class AsyncEvent extends AsyncAction
 {
-    /**
-     * @var string $eventName
-     * @var SerializableEvent $event
-     */
-    public function __construct($eventName, SerializableEvent $event)
+    public function __construct(string $eventName, SerializableEvent $event)
     {
         parent::__construct(EventDispatcherInterface::class, 'dispatch', [$event, $eventName]);
     }
 
-    /**
-     * @return string
-     */
-    public function getEventName()
+    public function getEventName(): string
     {
-        return $this->parameters[1]->getValue();
+        /**
+         * Events produced with previous code version should have inverted parameters, so we need some logic
+         * to detect how it was produced and adapt, since there will be delayed jobs.
+         *
+         * IMPORTANT: If you are changing this code in any way that breaks the compatibility make sure that there
+         * are no delayed or pending jobs which were produced with previous version of the code.
+         */
+        $expectedEventNameParameter = $this->parameters[1]->getValue();
+        $fallbackParameter = $this->parameters[0]->getValue();
+
+        if (is_string($expectedEventNameParameter)) {
+            return $expectedEventNameParameter;
+        } elseif (is_string($fallbackParameter)) {
+            return $fallbackParameter;
+        } else {
+            throw new \TypeError('Event name can\'t be derived from event: ' . json_encode($this->parameters));
+        }
     }
 
-    /**
-     * @return SerializableEvent
-     */
-    public function getEvent()
+    public function getEvent(): SerializableEvent
     {
-        return $this->parameters[0]->getValue();
+        /**
+         * Events produced with previous code version should have inverted parameters, so we need some logic
+         * to detect how it was produced and adapt, since there will be delayed jobs.
+         *
+         * IMPORTANT: If you are changing this code in any way that breaks the compatibility make sure that there
+         * are no delayed or pending jobs which were produced with previous version of the code.
+         */
+        $expectedEventDataParameter = $this->parameters[0]->getValue();
+        $fallbackParameter = $this->parameters[1]->getValue();
+
+        if ($expectedEventDataParameter instanceof SerializableEvent) {
+            return $expectedEventDataParameter;
+        } elseif ($fallbackParameter instanceof SerializableEvent) {
+            return $fallbackParameter;
+        } else {
+            throw new \TypeError('Event data can\'t be derived from event: ' . json_encode($this->parameters));
+        }
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getEventName();
     }

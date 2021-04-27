@@ -3,8 +3,6 @@ namespace Workana\AsyncJobs;
 
 /**
  * Async action
- *
- * @author Carlos Frutos <charly@workana.com>
  */
 class AsyncAction extends Job
 {
