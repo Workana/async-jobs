@@ -21,7 +21,10 @@ class AsyncEvent extends AsyncAction
      */
     public function getEventName()
     {
-        return $this->parameters[1]->getValue();
+        //Events produced with previous code version should have inverted parameters, so we need some logic
+        //to detect how it was produced and adapt, since there will be delayed jobs.
+        $eventName = $this->parameters[1]->getValue();
+        return (is_string($eventName)) ? $eventName :  $this->parameters[0]->getValue();
     }
 
     /**
@@ -29,7 +32,10 @@ class AsyncEvent extends AsyncAction
      */
     public function getEvent()
     {
-        return $this->parameters[0]->getValue();
+        //Events produced with previous code version should have inverted parameters, so we need some logic
+        //to detect how it was produced and adapt, since there will be delayed jobs.
+        $eventData = $this->parameters[0]->getValue();
+        return ($eventData instanceof SerializableEvent) ? $eventData : $this->parameters[1]->getValue();
     }
 
     /**
