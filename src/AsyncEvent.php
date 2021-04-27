@@ -11,8 +11,13 @@ class AsyncEvent extends AsyncAction
 
     public function getEventName(): string
     {
-        //Events produced with previous code version should have inverted parameters, so we need some logic
-        //to detect how it was produced and adapt, since there will be delayed jobs.
+        /**
+         * Events produced with previous code version should have inverted parameters, so we need some logic
+         * to detect how it was produced and adapt, since there will be delayed jobs.
+         *
+         * IMPORTANT: If you are changing this code in any way that breaks the compatibility make sure that there
+         * are no delayed or pending jobs which were produced with previous version of the code.
+         */
         $expectedEventNameParameter = $this->parameters[1]->getValue();
         $fallbackParameter = $this->parameters[0]->getValue();
 
@@ -27,8 +32,13 @@ class AsyncEvent extends AsyncAction
 
     public function getEvent(): SerializableEvent
     {
-        //Events produced with previous code version should have inverted parameters, so we need some logic
-        //to detect how it was produced and adapt, since there will be delayed jobs.
+        /**
+         * Events produced with previous code version should have inverted parameters, so we need some logic
+         * to detect how it was produced and adapt, since there will be delayed jobs.
+         *
+         * IMPORTANT: If you are changing this code in any way that breaks the compatibility make sure that there
+         * are no delayed or pending jobs which were produced with previous version of the code.
+         */
         $expectedEventDataParameter = $this->parameters[0]->getValue();
         $fallbackParameter = $this->parameters[1]->getValue();
 
