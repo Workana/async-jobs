@@ -29,7 +29,8 @@
         "bernard/bernard": "dev-workana",
         "misterion/ko-process": "^0.5.3",
         "psr/container": "^1.0",
-        "doctrine/orm": "^2.6"
+        "doctrine/orm": "^2.6",
+        "ext-json": "*"
     },
     "repositories": [
         {
