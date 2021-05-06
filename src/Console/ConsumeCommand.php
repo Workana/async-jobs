@@ -58,5 +58,7 @@ class ConsumeCommand extends Command
 
         $worker = $this->jm->createWorkerBuilder()->usingMultipleQueues($queues)->build();
         $worker->run();
+
+        return Command::SUCCESS;
     }
 }
