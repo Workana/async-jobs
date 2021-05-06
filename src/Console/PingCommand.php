@@ -62,5 +62,7 @@ class PingCommand extends Command
 
             $output->writeln('Ping sent to: ' . $queueName);
         }
+
+        return Command::SUCCESS;
     }
 }
