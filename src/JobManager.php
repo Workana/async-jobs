@@ -10,6 +10,7 @@ use Normalt\Normalizer\AggregateNormalizer;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Workana\AsyncJobs\Dispatcher\AsyncJobDispatcher;
 use Bernard\Normalizer\EnvelopeNormalizer;
+use Workana\AsyncJobs\Dispatcher\SyncJobDispatcher;
 use Workana\AsyncJobs\Doctrine\QueueableEntityNormalizer;
 use Workana\AsyncJobs\Normalizer\AsyncActionNormalizer;
 use Workana\AsyncJobs\Normalizer\ParameterNormalizer;
@@ -85,7 +86,7 @@ class JobManager
     private function createDispatcher()
     {
         if ($this->config->isSync()) {
-            throw new \Exception('Not implemented yet: sync mode');
+            return new SyncJobDispatcher($this);
         } else {
             return new AsyncJobDispatcher($this);
         }
