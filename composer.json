@@ -26,7 +26,7 @@
         }
     ],
     "require": {
-        "bernard/bernard": "dev-fix_deprecations",
+        "bernard/bernard": "dev-workana_fix_depre",
         "misterion/ko-process": "^0.5.3",
         "psr/container": "^1.0",
         "doctrine/orm": "^2.6",
