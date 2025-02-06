@@ -1,7 +1,7 @@
 <?php
 namespace Workana\AsyncJobs\Router;
 
-use Bernard\Router\SimpleRouter;
+use Bernard\Router\ReceiverMapRouter;
 use Workana\AsyncJobs\Executor\AsyncActionExecutor;
 
 /**
@@ -9,7 +9,7 @@ use Workana\AsyncJobs\Executor\AsyncActionExecutor;
  *
  * @author Carlos Frutos <charly@workana.com>
  */
-class DefaultRouter extends SimpleRouter
+class DefaultRouter extends ReceiverMapRouter
 {
     /**
      * Creates a new instance
@@ -19,7 +19,9 @@ class DefaultRouter extends SimpleRouter
     public function __construct(
         AsyncActionExecutor $asyncActionExecutor
     ) {
-        $this->add('AsyncAction', $asyncActionExecutor);
-        $this->add('AsyncEvent', $asyncActionExecutor);
+        parent::__construct([
+            'AsyncAction' => $asyncActionExecutor,
+            'AsyncEvent' => $asyncActionExecutor
+        ]);
     }
 }

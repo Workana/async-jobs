@@ -26,7 +26,7 @@
         }
     ],
     "require": {
-        "bernard/bernard": "dev-workana",
+        "bernard/bernard": "@dev",
         "misterion/ko-process": "^0.5.3",
         "psr/container": "^1.0",
         "doctrine/orm": "^2.6",
@@ -34,8 +34,11 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "git@github.com:workana/bernard.git"
+            "type": "path",
+            "url": "/home/bernard",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "prefer-stable": true
