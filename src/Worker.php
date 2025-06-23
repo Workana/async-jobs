@@ -58,6 +58,8 @@ class Worker
      */
     protected $shutdownSignal = null;
 
+    protected EventDispatcherInterface $eventDispatcher;
+
     /**
      * Create a new Worker
      *
