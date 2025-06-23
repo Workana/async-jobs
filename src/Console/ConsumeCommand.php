@@ -54,7 +54,9 @@ class ConsumeCommand extends Command
     {
         $this->jm->getEventDispatcher()->addSubscriber(new ConsoleSubscriber($output));
 
-        $queues = array_map('trim', explode(',', $input->getOption('queues')));
+        $queueNames = (string) $input->getOption('queues');
+
+        $queues = array_map('trim', explode(',', $queueNames));
 
         $worker = $this->jm->createWorkerBuilder()->usingMultipleQueues($queues)->build();
         $worker->run();

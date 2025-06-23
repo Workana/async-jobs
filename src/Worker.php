@@ -58,6 +58,8 @@ class Worker
      */
     protected $shutdownSignal = null;
 
+    protected EventDispatcherInterface $eventDispatcher;
+
     /**
      * Create a new Worker
      *
@@ -152,7 +154,7 @@ class Worker
         try {
             $this->stopwatch->start();
 
-            call_user_func($this->router->map($envelope), $envelope->getMessage());
+            $this->router->route($envelope)->receive($envelope->getMessage());
 
             $this->queue->acknowledge($envelope);
 

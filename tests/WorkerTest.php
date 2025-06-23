@@ -1,6 +1,7 @@
 <?php
 namespace Workana\AsyncJobs\Tests;
 
+use Bernard\Receiver;
 use Exception;
 use Mockery as m;
 use Bernard\Envelope;
@@ -119,12 +120,15 @@ class WorkerTest extends Test
         
         $this->mockedQueue->shouldReceive('acknowledge')->with($envelope)->once()->byDefault();
 
-        $this->mockedRouter->shouldReceive('map')
+        $mockedReceiver = m::mock(Receiver::class);
+        $mockedReceiver->shouldReceive('receive')
+            ->once()
+            ->with($message);
+
+        $this->mockedRouter->shouldReceive('route')
             ->once()
             ->with($envelope)
-            ->andReturn(function(Message $actualMessage) use ($message) {
-                $this->assertSame($message, $actualMessage);
-            });
+            ->andReturn($mockedReceiver);
 
         $this->worker->invoke($envelope);
     }
@@ -151,22 +155,21 @@ class WorkerTest extends Test
                 ->once()
                 ->with($envelope, m::type(Exception::class));
 
-        $this->mockedRouter->shouldReceive('map')
+        $mockedReceiver = m::mock(Receiver::class);
+        $mockedReceiver->shouldReceive('receive')
+            ->once()
+            ->andThrow(new Exception('testing exception'));
+
+        $this->mockedRouter->shouldReceive('route')
             ->once()
             ->with($envelope)
-            ->andReturn(function() {
-                throw new Exception('testing exception');
-            });
+            ->andReturn($mockedReceiver);
 
         $this->worker->invoke($envelope);
     }
 
     public function testRunMultipleMessagesAndQuit()
     {
-        $this->mockedRouter->shouldReceive('map')
-            ->times(3)
-            ->andReturn(function() {});
-
         $eventDispatcher = $this->useActualEventDispatcher();
 
         $eventDispatcher->addListener(AsyncJobsEvents::AFTER_EXECUTION, function() {
@@ -181,6 +184,16 @@ class WorkerTest extends Test
 
         $envelope = new Envelope(new AsyncAction('Foo', 'Bar'));
 
+        $mockedReceiver = m::mock(Receiver::class);
+        $mockedReceiver->shouldReceive('receive')
+            ->times(3)
+            ->with($envelope->getMessage());
+
+        $this->mockedRouter->shouldReceive('route')
+            ->times(3)
+            ->with($envelope)
+            ->andReturn($mockedReceiver);
+
         $this->mockedQueue->shouldReceive('dequeue')->times(3)->andReturn($envelope);
 
         $this->worker->run();
@@ -188,7 +201,7 @@ class WorkerTest extends Test
 
     public function testRunWithoutTasks()
     {
-        $this->mockedRouter->shouldReceive('map')->never();
+        $this->mockedRouter->shouldReceive('route')->never();
 
         $this->mockedQueue->shouldReceive('dequeue')->times(5)->andReturnUsing(function() {
             static $calls = 1;

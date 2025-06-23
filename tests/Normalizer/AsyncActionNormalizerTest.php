@@ -43,7 +43,7 @@ class AsyncActionNormalizerTest extends Test
     public function testDenormalizeWithoutAllOptions()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectDeprecationMessage('The following options are missing: retries, preferredQueueName');
+        $this->expectExceptionMessage('The following options are missing: retries, preferredQueueName');
 
         $data = [
             'class' => 'Namespace\Of\Class',
@@ -116,7 +116,7 @@ class AsyncActionNormalizerTest extends Test
         $expectedMessage = strtr('The element with key ":key" was not found', [
             ':key' => $key
         ]);
-        $this->expectDeprecationMessage($expectedMessage);
+        $this->expectExceptionMessage($expectedMessage);
 
         $data = $this->getNormalizedCanonicalAsyncAction();
         unset($data[$key]);
